@@ -1,0 +1,102 @@
+[
+  {
+    "id": "log-101",
+    "timestamp": "2026-09-22T19:54:12Z",
+    "level": "CRIT",
+    "source": "br-remote-rtr01",
+    "service": "CISCO-IF-MIB",
+    "facility": "daemon",
+    "message": "%ETH-4-CRC_ERRORS: Interface GigabitEthernet0/0/1 input errors 1482, CRC 1240, frame 242. Threshold exceeded.",
+    "raw": "Sep 22 19:54:12 br-remote-rtr01 %ETH-4-CRC_ERRORS: Interface GigabitEthernet0/0/1 input errors 1482, CRC 1240, frame 242. Threshold exceeded."
+  },
+  {
+    "id": "log-102",
+    "timestamp": "2026-09-22T19:53:45Z",
+    "level": "WARN",
+    "source": "hq-edge-rtr02",
+    "service": "SEC-CRYPTO",
+    "facility": "local4",
+    "message": "%CRYPTO-4-IKEMP2_REKEY: S2S IPsec Tunnel0 SA re-negotiation triggered high interrupt load. Queue depth 82%.",
+    "raw": "Sep 22 19:53:45 hq-edge-rtr02 %CRYPTO-4-IKEMP2_REKEY: S2S IPsec Tunnel0 SA re-negotiation triggered high interrupt load. Queue depth 82%."
+  },
+  {
+    "id": "log-103",
+    "timestamp": "2026-09-22T19:52:10Z",
+    "level": "INFO",
+    "source": "aws-alb-prod-ext",
+    "service": "AWS/ApplicationELB",
+    "facility": "cloudwatch",
+    "message": "access-log: http 200 172.16.10.14:8080 12ms target_status_code=200 response_bytes=4192 client_ip=198.51.100.41",
+    "raw": "2026-09-22T19:52:10.829141Z app/alb-prod-ext/83921 198.51.100.41:51294 172.16.10.14:8080 0.001 0.011 0.000 200 200 4192 1420 \"GET /api/v1/health HTTP/1.1\""
+  },
+  {
+    "id": "log-104",
+    "timestamp": "2026-09-22T19:50:30Z",
+    "level": "WARN",
+    "source": "aws-ec2-worker-01",
+    "service": "systemd-celery",
+    "facility": "syslog",
+    "message": "worker-batch-indexer: Queue backlog reaching 1,840 items. Execution latency approaching SLA boundary (840ms).",
+    "raw": "Sep 22 19:50:30 ip-172-16-15-22 celery[8192]: worker-batch-indexer: Queue backlog reaching 1,840 items. Execution latency approaching SLA boundary (840ms)."
+  },
+  {
+    "id": "log-105",
+    "timestamp": "2026-09-22T19:48:19Z",
+    "level": "INFO",
+    "source": "hq-core-rtr01",
+    "service": "BGP-ROUTING",
+    "facility": "daemon",
+    "message": "%BGP-5-ADJCHANGE: neighbor 172.16.0.1 (AWS Direct Connect TGW) Up. BGP prefixes received: 14.",
+    "raw": "Sep 22 19:48:19 hq-core-rtr01 %BGP-5-ADJCHANGE: neighbor 172.16.0.1 (AWS Direct Connect TGW) Up. BGP prefixes received: 14."
+  },
+  {
+    "id": "log-106",
+    "timestamp": "2026-09-22T19:45:00Z",
+    "level": "INFO",
+    "source": "esxi-node01.prod",
+    "service": "vmkernel",
+    "facility": "kern",
+    "message": "vmsys: mem_balloon: balloon target set for vm-prod-elastic-02 (allocated: 16384 MB, reclaimed: 2048 MB).",
+    "raw": "Sep 22 19:45:00 esxi-node01 vmsys: mem_balloon: balloon target set for vm-prod-elastic-02 (allocated: 16384 MB, reclaimed: 2048 MB)."
+  },
+  {
+    "id": "log-107",
+    "timestamp": "2026-09-22T19:42:14Z",
+    "level": "DEBUG",
+    "source": "aws-rds-postgres-primary",
+    "service": "postgresql-15",
+    "facility": "cloudwatch",
+    "message": "checkpoint starting: time, wal_keep_size 1024MB; checkpoint complete: wrote 4210 buffers (2.1%); 0 WAL file(s) added.",
+    "raw": "2026-09-22 19:42:14 UTC:172.16.20.5(5432):postgres@netfusion_db:[1420]:LOG: checkpoint complete: wrote 4210 buffers (2.1%); 0 WAL file(s) added."
+  },
+  {
+    "id": "log-108",
+    "timestamp": "2026-09-22T19:38:22Z",
+    "level": "WARN",
+    "source": "hq-ngfw-pri",
+    "service": "PAN-THREAT",
+    "facility": "local0",
+    "message": "THREAT: scan detected (Port Scan sweep on DMZ IP 10.100.0.254 from public external IP 203.0.113.88). Action: Dropped.",
+    "raw": "Sep 22 19:38:22 hq-ngfw-pri 1,2026/09/22 19:38:22,001801000000,THREAT,scan,2561,2026/09/22 19:38:22,203.0.113.88,10.100.0.254,0.0.0.0,0.0.0.0,Rule-DMZ-Protect,,,drop,0"
+  },
+  {
+    "id": "log-109",
+    "timestamp": "2026-09-22T19:30:15Z",
+    "level": "INFO",
+    "source": "k8s-master-01",
+    "service": "kube-apiserver",
+    "facility": "daemon",
+    "message": "apiserver: lease renewal succeeded for node k8s-worker-03. All 12 worker nodes Ready.",
+    "raw": "Sep 22 19:30:15 k8s-master-01 kube-apiserver[1104]: I0922 19:30:15.148201 node_lifecycle_controller.go:1210] Node k8s-worker-03 Lease renewal success."
+  },
+  {
+    "id": "log-110",
+    "timestamp": "2026-09-22T19:25:00Z",
+    "level": "INFO",
+    "source": "dc-dist-sw01",
+    "service": "CISCO-LACP",
+    "facility": "daemon",
+    "message": "%PORT-5-IF_UP: Port-Channel 1 (Bundle TenGi1/1/1, TenGi1/1/2) is UP. Member ports 2/2 operational.",
+    "raw": "Sep 22 19:25:00 dc-dist-sw01 %PORT-5-IF_UP: Port-Channel 1 (Bundle TenGi1/1/1, TenGi1/1/2) is UP. Member ports 2/2 operational."
+  }
+]

@@ -1,0 +1,164 @@
+{
+  "region": "us-east-1 (N. Virginia)",
+  "account": "8492-1049-2810 (Production)",
+  "vpc": {
+    "id": "vpc-092df37b4",
+    "name": "netfusion-prod-vpc",
+    "cidr": "172.16.0.0/16",
+    "subnetsCount": 6,
+    "transitGatewayId": "tgw-04812fceb",
+    "directConnectId": "dxcon-0291ba4",
+    "directConnectStatus": "Available (BGP Established)",
+    "directConnectLatency": "8.4ms"
+  },
+  "summary": {
+    "totalInstances": 5,
+    "runningInstances": 4,
+    "stoppedInstances": 1,
+    "avgCpuUtilization": 62.7,
+    "avgMemoryUtilization": 63.6,
+    "totalBandwidth": "1.17 Gbps",
+    "estimatedMonthlyCost": "$1,480.50",
+    "cloudWatchAlarms": 1
+  },
+  "instances": [
+    {
+      "id": "i-09ab72648dfc101",
+      "name": "aws-ec2-api-01",
+      "type": "t3.xlarge",
+      "vCpu": 4,
+      "memory": "16 GB",
+      "privateIp": "172.16.10.14",
+      "publicIp": null,
+      "az": "us-east-1a",
+      "state": "running",
+      "cpu": 51.5,
+      "memoryUsage": 62.0,
+      "diskUsage": 48.2,
+      "networkIn": "420.8 Mbps",
+      "networkOut": "510.2 Mbps",
+      "uptime": "89d 12h 05m"
+    },
+    {
+      "id": "i-08fc34521bc202",
+      "name": "aws-ec2-api-02",
+      "type": "t3.xlarge",
+      "vCpu": 4,
+      "memory": "16 GB",
+      "privateIp": "172.16.10.15",
+      "publicIp": null,
+      "az": "us-east-1b",
+      "state": "running",
+      "cpu": 48.9,
+      "memoryUsage": 59.4,
+      "diskUsage": 46.1,
+      "networkIn": "398.4 Mbps",
+      "networkOut": "495.1 Mbps",
+      "uptime": "89d 12h 02m"
+    },
+    {
+      "id": "i-07c82319efd303",
+      "name": "aws-ec2-worker-01",
+      "type": "c5.2xlarge",
+      "vCpu": 8,
+      "memory": "16 GB",
+      "privateIp": "172.16.15.22",
+      "publicIp": null,
+      "az": "us-east-1a",
+      "state": "running",
+      "cpu": 78.4,
+      "memoryUsage": 68.2,
+      "diskUsage": 55.4,
+      "networkIn": "180.2 Mbps",
+      "networkOut": "194.5 Mbps",
+      "uptime": "45d 08h 19m"
+    },
+    {
+      "id": "i-06d91244aec404",
+      "name": "aws-ec2-worker-02",
+      "type": "c5.2xlarge",
+      "vCpu": 8,
+      "memory": "16 GB",
+      "privateIp": "172.16.15.23",
+      "publicIp": null,
+      "az": "us-east-1b",
+      "state": "running",
+      "cpu": 72.1,
+      "memoryUsage": 65.0,
+      "diskUsage": 52.0,
+      "networkIn": "172.5 Mbps",
+      "networkOut": "188.0 Mbps",
+      "uptime": "45d 08h 15m"
+    },
+    {
+      "id": "i-05e83120abc505",
+      "name": "aws-bastion-host",
+      "type": "t3.micro",
+      "vCpu": 2,
+      "memory": "1 GB",
+      "privateIp": "172.16.1.10",
+      "publicIp": "54.210.88.19",
+      "az": "us-east-1a",
+      "state": "stopped",
+      "cpu": 0.0,
+      "memoryUsage": 0.0,
+      "diskUsage": 12.0,
+      "networkIn": "0 Mbps",
+      "networkOut": "0 Mbps",
+      "uptime": "0d 00h 00m"
+    }
+  ],
+  "rds": {
+    "identifier": "aws-rds-postgres-prod",
+    "engine": "PostgreSQL 15.4",
+    "instanceClass": "db.r6g.xlarge (4 vCPU, 32GB)",
+    "multiAz": true,
+    "allocatedStorage": "1,200 GB (gp3)",
+    "primary": {
+      "endpoint": "rds-prod-pg.cr9142.us-east-1.rds.amazonaws.com",
+      "az": "us-east-1a",
+      "cpu": 36.2,
+      "activeConnections": 142,
+      "maxConnections": 500,
+      "iops": 3420,
+      "freeableMemory": "8.4 GB",
+      "status": "available"
+    },
+    "replica": {
+      "endpoint": "rds-prod-pg-ro.cr9142.us-east-1.rds.amazonaws.com",
+      "az": "us-east-1b",
+      "cpu": 24.1,
+      "activeConnections": 48,
+      "replicationLag": "18 ms",
+      "status": "available"
+    }
+  },
+  "alb": {
+    "name": "alb-prod-ext",
+    "dnsName": "alb-ext-prod-83921.us-east-1.elb.amazonaws.com",
+    "scheme": "internet-facing",
+    "healthyTargets": 4,
+    "totalTargets": 4,
+    "requestRate": "1,840 req/sec",
+    "avgTargetResponseTime": "12.4 ms",
+    "http2xxRate": "99.82%",
+    "http4xxRate": "0.17%",
+    "http5xxRate": "0.01%"
+  },
+  "storage": [
+    {
+      "bucket": "netfusion-app-artifacts-prod",
+      "tier": "Standard S3",
+      "size": "14.8 TB",
+      "objects": "428,910",
+      "encryption": "SSE-KMS"
+    },
+    {
+      "bucket": "netfusion-telemetry-archive-cold",
+      "tier": "S3 Glacier Flexible",
+      "size": "82.4 TB",
+      "objects": "2,190,440",
+      "encryption": "SSE-S3"
+    }
+  ]
+}

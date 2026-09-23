@@ -1,0 +1,37 @@
+{
+  "cpuMemoryHistory": [
+    { "time": "08:00", "onPremCpu": 32, "cloudCpu": 41, "onPremMem": 45, "cloudMem": 52 },
+    { "time": "09:30", "onPremCpu": 44, "cloudCpu": 54, "onPremMem": 48, "cloudMem": 56 },
+    { "time": "11:00", "onPremCpu": 58, "cloudCpu": 68, "onPremMem": 52, "cloudMem": 62 },
+    { "time": "12:30", "onPremCpu": 61, "cloudCpu": 74, "onPremMem": 56, "cloudMem": 65 },
+    { "time": "14:00", "onPremCpu": 52, "cloudCpu": 71, "onPremMem": 54, "cloudMem": 64 },
+    { "time": "15:30", "onPremCpu": 49, "cloudCpu": 65, "onPremMem": 53, "cloudMem": 63 },
+    { "time": "17:00", "onPremCpu": 64, "cloudCpu": 78, "onPremMem": 58, "cloudMem": 67 },
+    { "time": "18:30", "onPremCpu": 46, "cloudCpu": 69, "onPremMem": 55, "cloudMem": 64 },
+    { "time": "19:00", "onPremCpu": 51, "cloudCpu": 66, "onPremMem": 54, "cloudMem": 63 },
+    { "time": "19:30", "onPremCpu": 55, "cloudCpu": 64, "onPremMem": 55, "cloudMem": 64 },
+    { "time": "19:55", "onPremCpu": 52, "cloudCpu": 62, "onPremMem": 54, "cloudMem": 63 }
+  ],
+  "trafficHistory": [
+    { "time": "08:00", "inbound": 2.8, "outbound": 3.1, "directConnect": 2.2 },
+    { "time": "09:30", "inbound": 3.4, "outbound": 3.9, "directConnect": 2.8 },
+    { "time": "11:00", "inbound": 4.5, "outbound": 4.8, "directConnect": 3.9 },
+    { "time": "12:30", "inbound": 4.9, "outbound": 5.4, "directConnect": 4.2 },
+    { "time": "14:00", "inbound": 4.7, "outbound": 5.1, "directConnect": 4.0 },
+    { "time": "15:30", "inbound": 4.2, "outbound": 4.6, "directConnect": 3.7 },
+    { "time": "17:00", "inbound": 5.2, "outbound": 5.8, "directConnect": 4.6 },
+    { "time": "18:30", "inbound": 4.9, "outbound": 5.3, "directConnect": 4.1 },
+    { "time": "19:00", "inbound": 4.8, "outbound": 5.1, "directConnect": 4.0 },
+    { "time": "19:30", "inbound": 4.85, "outbound": 5.15, "directConnect": 4.05 },
+    { "time": "19:55", "inbound": 4.82, "outbound": 5.14, "directConnect": 4.02 }
+  ],
+  "latencyHistory": [
+    { "time": "08:00", "directConnect": 8.1, "branchOffice": 24.2, "internetEdge": 11.5 },
+    { "time": "11:00", "directConnect": 8.3, "branchOffice": 26.5, "internetEdge": 12.1 },
+    { "time": "14:00", "directConnect": 8.4, "branchOffice": 29.8, "internetEdge": 12.0 },
+    { "time": "17:00", "directConnect": 8.5, "branchOffice": 38.4, "internetEdge": 13.2 },
+    { "time": "19:00", "directConnect": 8.4, "branchOffice": 44.0, "internetEdge": 12.4 },
+    { "time": "19:30", "directConnect": 8.4, "branchOffice": 47.8, "internetEdge": 12.5 },
+    { "time": "19:55", "directConnect": 8.4, "branchOffice": 48.2, "internetEdge": 12.8 }
+  ]
+}
