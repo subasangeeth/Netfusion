@@ -1,0 +1,12 @@
+# NetFusion Custom Suricata Rules for On-Premises Network
+# Rule 2001001: Nmap Port Sweep / SYN Probing
+alert tcp any any -> any any (msg:"ET SCAN Potential Nmap Port Sweep"; flags:S; threshold:type threshold, track by_src, count 5, seconds 5; classtype:attempted-recon; sid:2001001; rev:1;)
+
+# Rule 2001002: Unauthorized Database Connection Attempt from User Segment
+alert tcp 10.10.20.0/24 any -> 10.10.30.20 5432 (msg:"POLICY Direct User Access to Database Server Blocked"; flags:S; classtype:policy-violation; sid:2001002; rev:1;)
+
+# Rule 2001003: ICMP Anomalous Echo Rate Burst
+alert icmp any any -> any any (msg:"GPL ICMP Anomalous Echo Request Rate"; itype:8; threshold:type both, track by_src, count 20, seconds 2; classtype:misc-activity; sid:2001003; rev:1;)
+
+# Rule 2001004: HTTP 401 Brute Force / Repeated Failed Auth
+alert http any any -> any any (msg:"HTTP 401 Repeated Authentication Failure"; content:"401"; http_stat_code; threshold:type threshold, track by_src, count 4, seconds 10; classtype:suspicious-login; sid:2001004; rev:1;)

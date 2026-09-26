@@ -1,0 +1,52 @@
+%YAML 1.1
+---
+suricata-version: "7.0"
+
+vars:
+  address-groups:
+    HOME_NET: "[10.10.0.0/16,10.20.0.0/16,10.50.0.0/30]"
+    EXTERNAL_NET: "!$HOME_NET"
+    HTTP_SERVERS: "[10.10.30.10,10.20.2.45]"
+    SQL_SERVERS: "[10.10.30.20]"
+
+default-rule-path: /etc/suricata/rules
+rule-files:
+  - local.rules
+
+outputs:
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+      types:
+        - alert:
+            payload: yes
+            payload-buffer-size: 4kb
+            packet: yes
+            metadata: yes
+        - http:
+            extended: yes
+        - drop:
+            alerts: yes
+
+af-packet:
+  - interface: eth0
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+
+app-layer:
+  protocols:
+    http:
+      enabled: yes
+    tls:
+      enabled: yes
+
+logging:
+  default-log-level: notice
+  outputs:
+    - console:
+        enabled: yes
+    - file:
+        enabled: yes
+        filename: /var/log/suricata/suricata.log

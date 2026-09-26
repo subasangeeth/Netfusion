@@ -1,0 +1,296 @@
+services:
+  # ============================================================================
+  # 1. CORE NETFUSION PLATFORM
+  # ============================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: netfusion-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000/api/v1}
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    networks:
+      - netfusion-core
+    depends_on:
+      backend:
+        condition: service_started
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: netfusion-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - NETFUSION_MODE=${NETFUSION_MODE:-demo}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend/app:/app/app
+    networks:
+      netfusion-core:
+      onprem-management:
+        ipv4_address: 10.10.10.250
+      onprem-transit:
+        ipv4_address: 10.10.100.250
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: netfusion-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-netfusion}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-netfusion_secure_password_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-netfusion_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - netfusion-core
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U netfusion -d netfusion_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: netfusion-prometheus
+    restart: unless-stopped
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - netfusion-core
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: netfusion-grafana
+    restart: unless-stopped
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+    volumes:
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    networks:
+      - netfusion-core
+    depends_on:
+      - prometheus
+
+  # ============================================================================
+  # 2. DOCKER-BASED ON-PREMISES ENTERPRISE NETWORK
+  # ============================================================================
+  router:
+    build:
+      context: ./onprem/router
+      dockerfile: Dockerfile
+    container_name: netfusion-router
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      onprem-management:
+        ipv4_address: 10.10.10.1
+      onprem-users:
+        ipv4_address: 10.10.20.1
+      onprem-servers:
+        ipv4_address: 10.10.30.1
+      onprem-security:
+        ipv4_address: 10.10.40.1
+      onprem-transit:
+        ipv4_address: 10.10.100.1
+    restart: unless-stopped
+
+  firewall:
+    build:
+      context: ./onprem/firewall
+      dockerfile: Dockerfile
+    container_name: netfusion-firewall
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      onprem-management:
+        ipv4_address: 10.10.10.2
+      onprem-servers:
+        ipv4_address: 10.10.30.2
+      onprem-transit:
+        ipv4_address: 10.10.100.2
+    restart: unless-stopped
+
+  app-server:
+    build:
+      context: ./onprem/servers
+      dockerfile: Dockerfile.app
+    container_name: netfusion-app-server
+    ports:
+      - "8080:8080"
+    networks:
+      onprem-servers:
+        ipv4_address: 10.10.30.10
+    restart: unless-stopped
+
+  db-server:
+    build:
+      context: ./onprem/servers
+      dockerfile: Dockerfile.db
+    container_name: netfusion-db-server
+    environment:
+      POSTGRES_PASSWORD: internal_app_db_secret
+    networks:
+      onprem-servers:
+        ipv4_address: 10.10.30.20
+    restart: unless-stopped
+
+  client-01:
+    build:
+      context: ./onprem/clients
+      dockerfile: Dockerfile
+    container_name: netfusion-client-01
+    cap_add:
+      - NET_ADMIN
+    networks:
+      onprem-users:
+        ipv4_address: 10.10.20.10
+    restart: unless-stopped
+
+  client-02:
+    build:
+      context: ./onprem/clients
+      dockerfile: Dockerfile
+    container_name: netfusion-client-02
+    cap_add:
+      - NET_ADMIN
+    networks:
+      onprem-users:
+        ipv4_address: 10.10.20.11
+    restart: unless-stopped
+
+  vpn-gateway:
+    build:
+      context: ./onprem/vpn
+      dockerfile: Dockerfile
+    container_name: netfusion-vpn-gateway
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+    ports:
+      - "${WG_PORT:-51820}:51820/udp"
+    networks:
+      onprem-transit:
+        ipv4_address: 10.10.100.10
+    restart: unless-stopped
+
+  # ============================================================================
+  # 3. CYBERSECURITY (SURICATA & COLLECTOR)
+  # ============================================================================
+  suricata:
+    image: jasonish/suricata:7.0
+    container_name: netfusion-suricata
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    command: -i eth0
+    volumes:
+      - ./security/suricata/suricata.yaml:/etc/suricata/suricata.yaml
+      - ./security/suricata/rules:/etc/suricata/rules
+      - suricata_logs:/var/log/suricata
+    networks:
+      onprem-security:
+        ipv4_address: 10.10.40.10
+    restart: unless-stopped
+
+  security-collector:
+    build:
+      context: ./security/collector
+      dockerfile: Dockerfile
+    container_name: netfusion-security-collector
+    volumes:
+      - suricata_logs:/var/log/suricata:ro
+    environment:
+      - SURICATA_EVE_PATH=/var/log/suricata/eve.json
+      - BACKEND_API_URL=http://backend:8000/api/v1
+    networks:
+      netfusion-core:
+      onprem-security:
+        ipv4_address: 10.10.40.250
+    depends_on:
+      backend:
+        condition: service_started
+    restart: unless-stopped
+
+# ==============================================================================
+# LOGICAL NETWORKS (REQUIREMENT 2, 3, 5)
+# ==============================================================================
+networks:
+  netfusion-core:
+    driver: bridge
+
+  onprem-management:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.10.0/24
+          gateway: 10.10.10.254
+
+  onprem-users:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.20.0/24
+          gateway: 10.10.20.254
+
+  onprem-servers:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.30.0/24
+          gateway: 10.10.30.254
+
+  onprem-security:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.40.0/24
+          gateway: 10.10.40.254
+
+  onprem-transit:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.100.0/24
+          gateway: 10.10.100.254
+
+# ==============================================================================
+# VOLUMES
+# ==============================================================================
+volumes:
+  postgres_data:
+  suricata_logs:
