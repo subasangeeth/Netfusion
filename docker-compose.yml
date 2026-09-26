@@ -12,8 +12,6 @@ services:
       - "${FRONTEND_PORT:-3000}:3000"
     environment:
       - VITE_API_URL=${VITE_API_URL:-http://localhost:8000/api/v1}
-    volumes:
-      - ./frontend/dist:/usr/share/nginx/html:ro
     networks:
       - netfusion-core
     depends_on:

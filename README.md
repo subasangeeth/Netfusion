@@ -1,11 +1,17 @@
 # NetFusion: AI-Powered Hybrid Cloud Network Automation & Security Platform
 
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20Dashboard-00f0ff?style=for-the-badge&logo=react&logoColor=black)](https://subasangeeth.github.io/Netfusion/)
+[![Deploy Demo](https://github.com/subasangeeth/Netfusion/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/subasangeeth/Netfusion/actions/workflows/deploy-pages.yml)
 [![Docker](https://img.shields.io/badge/Docker-28.3-blue.svg)](https://www.docker.com/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-19.3-cyan.svg)](https://react.dev/)
 [![WireGuard](https://img.shields.io/badge/VPN-WireGuard-red.svg)](https://www.wireguard.com/)
 [![Suricata](https://img.shields.io/badge/Security-Suricata-orange.svg)](https://suricata.io/)
 [![Terraform](https://img.shields.io/badge/IaC-Terraform-purple.svg)](https://www.terraform.io/)
+
+> **🌐 Live Interactive Demo Dashboard:** [**https://subasangeeth.github.io/Netfusion/**](https://subasangeeth.github.io/Netfusion/)
+>
+> Instant browser-based preview of the NetFusion Hybrid Cloud NOC Dashboard featuring simulated telemetry, topology maps, AI diagnostics, and incident triage—no local installation or AWS setup needed!
 
 NetFusion is an enterprise-grade hybrid cloud platform that bridges an isolated **Docker-based simulated on-premises network** with an **AWS Cloud VPC** via an encrypted **WireGuard hybrid VPN tunnel**. Managed from a centralized, dark-mode NOC operations dashboard, NetFusion orchestrates network automation, intrusion detection, observability, and safe, allowlist-restricted AI troubleshooting.
 
@@ -94,8 +100,8 @@ NetFusion/
 ### 2. Launching with Docker Compose
 ```bash
 # Clone the repository
-git clone https://github.com/organization/NetFusion.git
-cd NetFusion
+git clone https://github.com/subasangeeth/Netfusion.git
+cd Netfusion
 
 # Copy environment variables
 cp .env.example .env
